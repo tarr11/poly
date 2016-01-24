@@ -2,33 +2,50 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour {
+public class ConsoleScript : MonoBehaviour {
 
-	public GameObject Cube;
+
 	public Text Console;
 	public Text PolyCount;
+	public InputField input;
+
+
 
 	void Start ()
 	{
 
-		var input = gameObject.GetComponent<InputField>();
+
 
 		var se = new InputField.SubmitEvent();
 		se.AddListener(ProcessCommand);
 		input.onEndEdit = se;
 	
+		Console.text = "Poly Maker v1.0.0 loaded.";
 		//or simply use the line below, 
 		//input.onEndEdit.AddListener(SubmitName);  // This also works
 	}
-	
+
+	void Update()
+	{
+		//if (Input.GetKeyDown (KeyCode.Tab)) {
+
+		//	input.ActivateInputField();
+		//	Console.text = "ACTIVE";
+		//}
+
+	}
+
 	private void ProcessCommand(string text)
 	{
-		var input = gameObject.GetComponent<InputField>();
+
 		input.text = "";
 	
-		PolyCount.text = Cube.GetComponent<MeshFilter> ().sharedMesh.vertexCount + " Polys";
+		//PolyCount.text = Cube.GetComponent<MeshFilter> ().sharedMesh.vertexCount + " Polys";
 	
 		Console.text += ">" + text + "\n";
+		if (text == "maker") {
+			Application.LoadLevel("maker");
+		}
 		if (text == "help") {
 			Console.text += "HELP GOES HERE\n";
 

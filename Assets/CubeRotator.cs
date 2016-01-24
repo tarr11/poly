@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NewBehaviourScript1 : MonoBehaviour {
+public class CubeRotator : MonoBehaviour {
 
 	public float speed = 10f;
 	// Use this for initialization
