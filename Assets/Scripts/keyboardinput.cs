@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 
@@ -13,10 +11,9 @@ public class Poly {
 	public PolyPart[] Parts;
 	public string Name;
 
-	public static Poly Load(string file)
-	{
+    //public static poly load(string file) {
 
-	}
+    //}
 
 }
 
@@ -42,12 +39,21 @@ public class keyboardinput : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown ("c")) {
-			currentObject = (GameObject) Instantiate(cube, new Vector3(cube.transform.position.x, cube.transform.position.y + 2, cube.transform.position.z), cube.transform.rotation);
+
+        if (Input.GetKeyDown ("c")) {
+
+            if (currentObject != null) {
+                currentObject.GetComponent<Renderer>().material.color = Color.white;
+            }
+
+            currentObject = (GameObject) Instantiate(cube, new Vector3(cube.transform.position.x, cube.transform.position.y + 2, cube.transform.position.z), cube.transform.rotation);
 			currentObject.transform.parent = parent.transform;
 			currentObject.SetActive(true);
 			clones.Add(currentObject);
-		}
+
+            currentObject.GetComponent<Renderer>().material.color = Color.yellow;
+
+        }
 		if (Input.GetKeyDown ("w")) {
 			currentObject.transform.Translate (Vector3.forward);
 		}
