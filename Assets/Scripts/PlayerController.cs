@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && isJump == false) {
             player.GetComponent<Rigidbody>().AddForce(Vector3.up * JumpHeight);
             isJump = true;
+        }
+        if (Input.GetKeyDown("e")) {
+            SceneManager.LoadScene("printer");
         }
     }
 

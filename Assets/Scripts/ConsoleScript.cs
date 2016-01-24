@@ -52,6 +52,9 @@ public class ConsoleScript : MonoBehaviour {
 		} else {
 			Console.text += "NO\n";
 		}
+        if (text == "start") {
+            Application.LoadLevel("world");
+        }
 
 
 
