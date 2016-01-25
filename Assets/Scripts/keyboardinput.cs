@@ -10,11 +10,17 @@ using System.Xml.Serialization;
 public class Poly {
 	public PolyPart[] Parts;
 	public string Name;
+    //public GameObject PolyModel;
 
-    //public static poly load(string file) {
+    //private GameObject poly;
+    //private GameObject PolyPart;
+     
+    void MakeFakePoly () {
+        //Poly poly = new Poly();
 
-    //}
-
+        //currentObject = (GameObject)Instantiate(cube, new Vector3(cube.transform.position.x, cube.transform.position.y + 2, cube.transform.position.z), cube.transform.rotation);
+        //poly = (GameObject) Instantiate(PolyPart, new Vector3(PolyPart.transform.position.x, PolyPart.transform.position.y, PolyPart.transform.position.z), PolyPart.transform.rotation);
+    }
 }
 
 [Serializable]
@@ -28,7 +34,6 @@ public class keyboardinput : MonoBehaviour {
 	public GameObject cube;
 	private GameObject currentObject;
 	private GameObject parent;
-
 
 	List<GameObject> clones = new List<GameObject>();
 	// Use this for initialization

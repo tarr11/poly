@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour {
 
     public GameObject player;
+    public GameObject inventory;
     public float Velo = 5;
     public float JumpHeight = 100;
 
-    public bool isJump = false;
+    private bool isJump = false;
+    private bool inv = false;
 
 	// Use this for initialization
 	void Start () {
@@ -33,13 +35,30 @@ public class PlayerController : MonoBehaviour {
             isJump = true;
         }
         if (Input.GetKeyDown("e")) {
-            SceneManager.LoadScene("printer");
+            if (inv == false) {
+                inventory.SetActive(true);
+                inv = true;
+                PauseGame();
+            } else {
+                inventory.SetActive(false);
+                inv = false;
+                PauseGame();
+            }
+            
         }
     }
 
     void OnCollisionEnter(Collision col) {
         if (col.collider.gameObject.tag == ("Ground")) {
             isJump = false;
+        }
+    }
+
+    public void PauseGame () {
+        if (Time.timeScale == 1) {
+            Time.timeScale = 0;
+        } else {
+            Time.timeScale = 1;
         }
     }
 }

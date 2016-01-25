@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Inventory : MonoBehaviour {
 
-    private Scene inventory = SceneManager.GetSceneByName("inventory");
+    //private Scene inventory = SceneManager.GetSceneByName("inventory");
 
     // Use this for initialization
     void Start () {
