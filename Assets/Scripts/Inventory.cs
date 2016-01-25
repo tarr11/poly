@@ -15,8 +15,5 @@ public class Inventory : MonoBehaviour {
 	void Update () {
 	    
 	}
-
-    void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
-    }
+    
 }

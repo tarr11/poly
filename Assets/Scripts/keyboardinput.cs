@@ -6,28 +6,9 @@ using System;
 
 using System.Xml.Serialization;
 
-[Serializable]
-public class Poly {
-	public PolyPart[] Parts;
-	public string Name;
-    //public GameObject PolyModel;
 
-    //private GameObject poly;
-    //private GameObject PolyPart;
-     
-    void MakeFakePoly () {
-        //Poly poly = new Poly();
 
-        //currentObject = (GameObject)Instantiate(cube, new Vector3(cube.transform.position.x, cube.transform.position.y + 2, cube.transform.position.z), cube.transform.rotation);
-        //poly = (GameObject) Instantiate(PolyPart, new Vector3(PolyPart.transform.position.x, PolyPart.transform.position.y, PolyPart.transform.position.z), PolyPart.transform.rotation);
-    }
-}
 
-[Serializable]
-public class PolyPart {
-	public Vector3 Position;
-
-}
 
 public class keyboardinput : MonoBehaviour {
 
@@ -111,7 +92,7 @@ public class keyboardinput : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			Poly p = new Poly();
-			p.Parts = clones.Select(s => new PolyPart{ Position = s.transform.position }).ToArray();
+			p.Parts = clones.Select(s => new PolyPart{ Position = s.transform.position }).ToList();
 			XmlSerializer xml = new XmlSerializer(typeof(Poly));
 
 			
