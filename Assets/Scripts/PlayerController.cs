@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject inventory;
     public float Velo = 5;
     public float JumpHeight = 100;
+    public float polyparts = 0;
 
     private bool isJump = false;
     private bool inv = false;

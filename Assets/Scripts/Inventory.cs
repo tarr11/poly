@@ -1,19 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class Inventory : MonoBehaviour {
 
-    //private Scene inventory = SceneManager.GetSceneByName("inventory");
+    public GameObject Parent;
+    public GameObject Cube;
+   
 
-    // Use this for initialization
-    void Start () {
-        
+	// Use this for initialization
+	void Start () {
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    
+	
 	}
-    
+
+    public void OnClick() {
+        var p = Poly.MakeFakePoly();
+        p.PopulateGameObject(Parent, Cube);
+        //p.transform.Translate ()
+    }
 }
+                                                
