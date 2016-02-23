@@ -3,19 +3,10 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class Poly : MonoBehaviour {
+[Serializable]
+public class Poly  {
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    // Update is called once per frames
-    void Update() {
-
-    }
-
-    public List<PolyPart> Parts = new List<PolyPart>();
+	public List<PolyPart> Parts;// = new List<PolyPart>();
     public string Name;
     //public GameObject PolyModel;
 

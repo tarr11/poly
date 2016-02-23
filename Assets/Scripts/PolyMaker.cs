@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System;
-
+using UnityEngine.UI;
 using System.Xml.Serialization;
 
 
@@ -13,33 +13,83 @@ using System.Xml.Serialization;
 public class PolyMaker : MonoBehaviour {
 
 	public GameObject cube;
-	private GameObject currentObject;
-	private GameObject parent;
+	public GameObject filler;
+	public InputField PolyName;
+	public Text Position;
 
+	GameObject currentObject;
+	GameObject currentFiller;
+	GameObject parent;
 	List<GameObject> clones = new List<GameObject>();
+	List<GameObject> fillerClones = new List<GameObject>();
+	enum FillMode {
+		Plane, Row, Point, Empty
+	};
+	FillMode fillMode;
+
 	// Use this for initialization
 	void Start () {
 		parent = new GameObject ();
-	
+		Cursor.lockState = CursorLockMode.Locked;
+	}
+		
+	GameObject NewCube() {
+
+		if (currentObject != null) {
+			currentObject.GetComponent<Renderer>().material.color = Color.white;
+		}
+
+		currentObject = (GameObject)Instantiate (cube);//, new Vector3(cube.transform.position.x, cube.transform.position.y, cube.transform.position.z), cube.transform.rotation);
+		currentObject.transform.SetParent(parent.transform);
+		currentObject.SetActive(true);
+		clones.Add(currentObject);
+
+		currentObject.GetComponent<Renderer>().material.color = Color.yellow;
+
+		updatePosition ();
+
+		return currentObject;
+	}
+
+	GameObject NewFillerCube() {
+		currentFiller = (GameObject)Instantiate (filler);
+		currentFiller.transform.SetParent(parent.transform);
+		currentFiller.SetActive(true);
+		fillerClones.Add (currentFiller);
+
+		return currentFiller;
+	}
+
+	void updatePosition () {
+		Position.text = string.Format("{0},{1},{2}", currentObject.transform.position.x, currentObject.transform.position.y, currentObject.transform.position.z);
 	}
 
 	// Update is called once per frame
 	void Update () {
 
+	
+		if (Input.GetKeyDown (KeyCode.Alpha1)) {
+			if (fillMode == FillMode.Plane) {
+				for (var i = 0; i < 9; i++) {
+					for (var j = 0; j < 9; j++) {
+						var gameObj = NewFillerCube ();
+						gameObj.transform.position = new Vector3 (i, 0, j);
+					}
+
+				}
+			}
+
+			if (fillMode == FillMode.Row) {
+				foreach (var f in fillerClones) {
+					if (f.transform.position.y == currentFiller.transform.position.y)
+				}
+			}
+		}
+
         if (Input.GetKeyDown ("c")) {
-
-            if (currentObject != null) {
-                currentObject.GetComponent<Renderer>().material.color = Color.white;
-            }
-
-            currentObject = (GameObject) Instantiate(cube, new Vector3(cube.transform.position.x, cube.transform.position.y + 2, cube.transform.position.z), cube.transform.rotation);
-			currentObject.transform.parent = parent.transform;
-			currentObject.SetActive(true);
-			clones.Add(currentObject);
-
-            currentObject.GetComponent<Renderer>().material.color = Color.yellow;
-
+			NewCube ();
         }
+
 		if (Input.GetKeyDown ("w")) {
 			currentObject.transform.Translate (Vector3.forward);
 		}
@@ -91,15 +141,26 @@ public class PolyMaker : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown (KeyCode.Return)) {
-			Poly p = new Poly();
-			p.Parts = clones.Select(s => new PolyPart{ Position = s.transform.position }).ToList();
-			XmlSerializer xml = new XmlSerializer(typeof(Poly));
-
 			
-			FileStream file = File.Create (Application.persistentDataPath + "/test.gd");
-			xml.Serialize(file, p);
+			Poly p = new Poly();
+			p.Name = this.PolyName.text;
+			p.Parts = clones.Select(s => new PolyPart{ Position = s.transform.position }).ToList();
 
-			file.Close();
+			var json = JsonUtility.ToJson(p);
+
+			using (var writer = new StreamWriter (Application.persistentDataPath + "/" +  p.Name + ".gd")) {
+				writer.Write (json);
+			}
+	
+		}
+
+		if (Input.GetKey (KeyCode.Escape)) {
+			Cursor.lockState = CursorLockMode.None;
+		}
+
+
+		if (Input.anyKeyDown) {
+			updatePosition ();
 		}
 	}
 }
