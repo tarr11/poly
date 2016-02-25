@@ -11,12 +11,12 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         offset = transform.position;
-        polyparts = PlayerController.polyparts;
+        //polyparts = PlayerController.polyparts;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         transform.position = player.transform.position + offset;
-        polyparts.text = "PolyParts: " + polyparts;
+//        polyparts.text = "PolyParts: " + polyparts;
 	}
 }
