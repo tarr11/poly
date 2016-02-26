@@ -1,23 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System;
 using UnityEngine.UI;
-using System.Xml.Serialization;
 
 public class PolyMaker : MonoBehaviour {
 
     public GameObject cube;
     public GameObject filler;
-    public InputField PolyName;
     public Text Position;
+    public InputField PolyName;
+    public GameObject EscMenu;
+    public GameObject ShownMenu;
+    public List<GameObject> clones = new List<GameObject>();
 
     GameObject currentObject;
     GameObject currentFiller;
     GameObject parent;
-    List<GameObject> clones = new List<GameObject>();
     List<GameObject> fillerClones = new List<GameObject>();
+    List<GameObject> allCubeClones = new List<GameObject>();
     float fillerX = 0;
     float fillerY = 0;
     float fillerZ = 0;
@@ -26,6 +25,7 @@ public class PolyMaker : MonoBehaviour {
         Plane, Row, Point, Empty
     };
     FillMode fillMode;
+    bool inMenu = true;
 
     // Use this for initialization
     void Start() {
@@ -40,15 +40,13 @@ public class PolyMaker : MonoBehaviour {
             currentObject.GetComponent<Renderer>().material.color = Color.white;
         }
 
-        currentObject = (GameObject)Instantiate(cube);
+        currentObject = Instantiate(cube);
         currentObject.transform.SetParent(parent.transform);
         currentObject.SetActive(true);
         clones.Add(currentObject);
+        allCubeClones.Add(currentObject);
 
         currentObject.GetComponent<Renderer>().material.color = Color.yellow;
-
-        //updatePosition (cur);
-
         return currentObject;
     }
 
@@ -117,33 +115,7 @@ public class PolyMaker : MonoBehaviour {
                 updatePosition(fillerX, fillerY, fillerZ);
             }
         }
-        /*
-        if (Input.GetKeyDown ("c")) {
-			NewCube ();
-        }
-
-		if (Input.GetKeyDown ("w")) {
-			currentObject.transform.Translate (Vector3.forward);
-		}
-		if (Input.GetKeyDown ("s")) {
-			currentObject.transform.Translate (Vector3.back);
-		}
-		if (Input.GetKeyDown ("a")) {
-			currentObject.transform.Translate (Vector3.left);
-		}
-		if (Input.GetKeyDown ("d")) {
-			currentObject.transform.Translate (Vector3.right);
-		}
-		if (Input.GetKeyDown ("q")) {
-			currentObject.transform.Translate (Vector3.up);
-		}
-		if (Input.GetKeyDown ("e")) {
-			currentObject.transform.Translate (Vector3.down);
-		}
-        */
         if (Input.GetKeyDown (KeyCode.LeftArrow)) {
-			//var clones = parent.transform.GetComponentsInChildren<Component>().Select( s => s.gameObject ).ToList();
-
 			if (currentObject == null) {
 				currentObject = clones[0];
 			} else {
@@ -157,7 +129,6 @@ public class PolyMaker : MonoBehaviour {
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
-			//var clones = parent.transform.<Component>().Select( s => s.gameObject ).ToList();
 			if (currentObject == null) {
 				currentObject = clones [0].gameObject;
 			} else {
@@ -184,33 +155,34 @@ public class PolyMaker : MonoBehaviour {
             fillerClones.Clear();
         }
 
-        /*
-		if (Input.GetKeyDown (KeyCode.Return)) {
-			
-			Poly p = new Poly();
-			p.Name = this.PolyName.text;
-			p.Parts = clones.Select(s => new PolyPart{ Position = s.transform.position }).ToList();
+        if (Input.GetKeyDown (KeyCode.Delete)) {
+            foreach (var cube in allCubeClones) {
+                Vector3 cubePos = cube.transform.position;
+                foreach (var f in fillerClones) {
+                    if (f.transform.position == cubePos) {
+                        Destroy(cube);
+                    }
+                }
+                allCubeClones.Remove(cube);
+            }
+        }
 
-			var json = JsonUtility.ToJson(p);
-
-			using (var writer = new StreamWriter (Application.persistentDataPath + "/" +  p.Name + ".gd")) {
-				writer.Write (json);
-			}
-	
-		}
-        */
-
-		if (Input.GetKey (KeyCode.Escape)) {
-            if (Cursor.lockState == CursorLockMode.None) {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+            if (inMenu) {
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = true;
+
+                EscMenu.gameObject.SetActive(true);
+                ShownMenu.gameObject.SetActive(false);
+                inMenu = false;
             } else {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = false;
+
+                EscMenu.gameObject.SetActive(false);
+                ShownMenu.gameObject.SetActive(true);
+                inMenu = true;
             }
-		}
-
-
-		if (Input.anyKeyDown) {
-			//updatePosition ();
 		}
 	}
 }

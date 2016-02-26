@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PolyMakerCamera : MonoBehaviour {
 
@@ -16,8 +15,17 @@ public class PolyMakerCamera : MonoBehaviour {
 
 		transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
-		if (Input.GetKey(KeyCode.UpArrow)) {
+		if (Input.GetKey(KeyCode.W)) {
 			transform.Translate(Vector3.forward * Time.deltaTime * cameraMoveSpeed);
 		}
-	}
+        if (Input.GetKey(KeyCode.S)) {
+            transform.Translate(Vector3.back * Time.deltaTime * cameraMoveSpeed);
+        }
+        if (Input.GetKey(KeyCode.A)) {
+            transform.Translate(Vector3.left * Time.deltaTime * cameraMoveSpeed);
+        }
+        if (Input.GetKey(KeyCode.D)) {
+            transform.Translate(Vector3.right * Time.deltaTime * cameraMoveSpeed);
+        }
+    }
 }
