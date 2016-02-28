@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
+using System.Linq;
+using System.IO;
 public class PolyMaker : MonoBehaviour {
 
+	public GameObject DefaultPoly;
     public GameObject cube;
     public GameObject filler;
     public Text Position;
@@ -11,6 +13,7 @@ public class PolyMaker : MonoBehaviour {
     public GameObject EscMenu;
     public GameObject ShownMenu;
     public List<GameObject> clones = new List<GameObject>();
+
 
     GameObject currentObject;
     GameObject currentFiller;
@@ -167,7 +170,30 @@ public class PolyMaker : MonoBehaviour {
             }
         }
 
+		if (Input.GetKeyDown (KeyCode.Period)) {
+			var button = GameObject.Find("PolyParts");
+			var pmaker = button.GetComponent<PolyMaker>();
+
+			Poly p = new Poly();
+			p.Name = System.Guid.NewGuid().ToString();
+			p.Parts = pmaker.clones.Select(s => new PolyPart { Position = s.transform.position }).ToList();
+
+			var json = JsonUtility.ToJson(p);
+			var path = Application.persistentDataPath + "/" + p.Name + ".gd";
+
+			using (var writer = new StreamWriter(path) ){
+				writer.Write(json);
+			}
+			// now add it to the picklist
+
+			Poly.LoadPoly (path, GameObject.Find ("PickList"), this.DefaultPoly, this.cube);
+
+				
+		}
+
 		if (Input.GetKeyDown (KeyCode.Escape)) {
+			// disabling for now...
+			return;
             if (inMenu) {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = true;

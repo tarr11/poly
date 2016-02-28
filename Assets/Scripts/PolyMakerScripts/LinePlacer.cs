@@ -9,6 +9,7 @@ public class LinePlacer : MonoBehaviour {
 	void Start () {
 		for (var i = 0; i < 9; i++) {
 			var line = GameObject.Instantiate<GameObject> (lineObject);
+			line.transform.SetParent (this.gameObject.transform);
 			line.SetActive (true);
 			line.transform.Translate (new Vector3 (1, 0, 0) * i);
 
@@ -22,6 +23,7 @@ public class LinePlacer : MonoBehaviour {
 		{
 			var line = GameObject.Instantiate<GameObject> (lineObject);
 			line.SetActive (true);
+			line.transform.SetParent (this.gameObject.transform);
 			line.transform.Translate (new Vector3 (1, 0, 0) * i);
 		}
 

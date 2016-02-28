@@ -2,9 +2,9 @@
 
 public class PolyMakerCamera : MonoBehaviour {
 
-	public float cameraMoveSpeed = 2;
-	public float speedH = 2.0f;
-	public float speedV = 2.0f;
+	public float cameraMoveSpeed = 10;
+	public float speedH = 10.0f;
+	public float speedV = 10.0f;
 
 	private float yaw = 0.0f;
 	private float pitch = 0.0f;
